@@ -1,9 +1,13 @@
 package awesomeProject
 
+import "strings"
+
 func ConvertToRoman(number int) string {
-	if number == 2 {
-		return "II"
+	var result strings.Builder
+
+	for i := 0; i < number; i++ {
+		result.WriteString("I")
 	}
 
-	return "I"
+	return result.String()
 }
