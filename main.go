@@ -5,14 +5,18 @@ import "strings"
 func ConvertToRoman(number int) string {
 	var result strings.Builder
 
-	for i := number; i > 0; i-- {
-		if i == 4 {
+	for number > 0 {
+		switch {
+		case number > 4:
+			result.WriteString("V")
+			number -= 5
+		case number > 3:
 			result.WriteString("IV")
-
-			break
+			number -= 4
+		default:
+			result.WriteString("I")
+			number--
 		}
-
-		result.WriteString("I")
 	}
 
 	return result.String()
