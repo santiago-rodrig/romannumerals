@@ -7,6 +7,9 @@ func ConvertToRoman(number int) string {
 
 	for number > 0 {
 		switch {
+		case number > 8:
+			result.WriteString("IX")
+			number -= 9
 		case number > 4:
 			result.WriteString("V")
 			number -= 5
