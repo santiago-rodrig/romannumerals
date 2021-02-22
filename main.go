@@ -48,13 +48,17 @@ func ConvertToRoman(number int) string {
 	return result.String()
 }
 
+func couldBeSubtractive(index int, currentSymbol byte, roman string) bool {
+	return index+1 < len(roman) && currentSymbol == 'I'
+}
+
 func ConvertToArabic(roman string) int {
 	total := 0
 
 	for i := 0; i < len(roman); i++ {
 		symbol := roman[i]
 
-		if i+1 < len(roman) && symbol == 'I' {
+		if couldBeSubtractive(i, symbol, roman) {
 			nextSymbol := roman[i+1]
 			potentialNumber := string([]byte{symbol, nextSymbol})
 			value := allRomanNumerals.ValueOf(potentialNumber)
