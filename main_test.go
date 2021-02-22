@@ -3,6 +3,7 @@ package awesomeProject
 import (
 	"fmt"
 	"testing"
+	"testing/quick"
 )
 
 func assertRomanNumeral(t *testing.T, got, want string) {
@@ -13,7 +14,7 @@ func assertRomanNumeral(t *testing.T, got, want string) {
 	}
 }
 
-func assertArabicNumeral(t *testing.T, got, want int) {
+func assertArabicNumeral(t *testing.T, got, want uint16) {
 	t.Helper()
 
 	if got != want {
@@ -22,7 +23,7 @@ func assertArabicNumeral(t *testing.T, got, want int) {
 }
 
 var cases = []struct {
-	Number      int
+	Number      uint16
 	RomanNumber string
 }{
 	{1, "I"},
@@ -71,5 +72,22 @@ func TestConvertToArabic(t *testing.T) {
 			got := ConvertToArabic(test.RomanNumber)
 			assertArabicNumeral(t, got, test.Number)
 		})
+	}
+}
+
+func TestPropertiesOfConversion(t *testing.T) {
+	assertion := func(arabic uint16) bool {
+		if arabic > 3999 {
+			return true
+		}
+
+		roman := ConvertToRoman(arabic)
+		fromRoman := ConvertToArabic(roman)
+
+		return fromRoman == arabic
+	}
+
+	if err := quick.Check(assertion, nil); err != nil {
+		t.Error("failed checks", err)
 	}
 }
